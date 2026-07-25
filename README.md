@@ -130,7 +130,8 @@ Public Telegram bot for monitoring Gnoland Topaz validators. Each user has their
 ### Features
 
 - 🔍 **Network status** — height, peers, validators, voting power
-- ➕ **Add any validator** — by signing address, operator address, or moniker
+- ➕ **Add by signing address** — most reliable method
+- ➕ **Add by moniker** — supported for 50+ validators (auto-updated from topaz)
 - 🔔 **Auto alerts** — RPC issues, validator leaves active set, zero voting power, low peers
 - 📊 **Per-user monitoring** — each user tracks their own validators
 
@@ -138,25 +139,29 @@ Public Telegram bot for monitoring Gnoland Topaz validators. Each user has their
 
 | Command | Description |
 |---------|-------------|
-| `/add <addr>` | Add validator to monitoring |
-| `/remove <addr>` | Remove validator |
+| `/add <address or moniker>` | Add validator to monitoring |
+| `/remove <address or moniker>` | Remove validator |
 | `/list` | List your monitored validators |
-| `/map <name> <addr>` | Link validator addresses |
 | `/status` | Show network info |
 | `/help` | Show help |
 
 ### Adding a Validator
 
+**By signing address (most reliable):**
 ```
 /add g1sgu52u6hfffg9tyck7v3zgd27hhv2paf9rgamr
-/add g1z360harzpshhdnlrdgj5ljkx2aeckzavkyl9g0
-/add Apollo
 ```
 
-You can add by:
-- **Signing address** (`g1...`)
-- **Operator address** (`g1...`)
-- **Moniker** (partial match)
+**By moniker (if supported):**
+```
+/add Apollo
+/add UTSA
+/add CoreNode
+```
+
+Find your signing address at:
+- [Valopers page](https://topaz.testnets.gno.land/r/gnops/valopers)
+- [GnoScan](https://gnoscan.io)
 
 ### Auto Alerts
 
@@ -165,6 +170,12 @@ The bot sends alerts for:
 - ⚠️ **Not in active set** — validator dropped from active set
 - ⚠️ **Zero voting power** — validator has no delegations
 - ⚠️ **Low peers** — fewer than 5 connected peers
+
+### Known Limitations
+
+- Moniker support works for validators who have signed up on the topaz valopers page (~50 validators)
+- For validators not in the mapping, use their **signing address** (g1...)
+- The valoper mapping is auto-updated daily from the topaz website
 
 ## Validator Guide
 
