@@ -10,9 +10,55 @@ Public infrastructure and tools for Gnoland Topaz testnet operators by [Apollo V
 | Service | Endpoint | Status |
 |---|---|---|
 | Public RPC | `https://rpc.apollo-validator.eu/gnoland/` | 🟢 Active |
-| Snapshots | Coming soon | 🟡 Planned |
+| Snapshots | `https://snapshots.apollo-validator.eu/gnoland/` | 🟢 Active |
 | Validator Monitor | Coming soon | 🟡 Planned |
 | Guide | Coming soon | 🟡 Planned |
+
+## Snapshots
+
+Page: `https://snapshots.apollo-validator.eu/gnoland/`
+
+Snapshots are created every 6 hours and stored for fast node synchronization.
+
+### Download Latest
+
+```bash
+# Get snapshot info
+curl -s https://snapshots.apollo-validator.eu/api/gnoland/snapshots/latest | jq
+
+# Download
+wget -O gnoland-snapshot.tar.zst https://snapshots.apollo-validator.eu/gnoland/snapshots/FILENAME
+```
+
+### Restore from Snapshot
+
+```bash
+# Install zstd
+sudo apt install zstd -y
+
+# Stop node
+sudo systemctl stop gnoland-topaz
+
+# Backup validator state (validators only)
+cp /root/topaz-data/secrets/priv_validator_state.json /root/priv_validator_state.json.bak
+
+# Download and extract
+wget -O gnoland-snapshot.tar.zst https://snapshots.apollo-validator.eu/gnoland/snapshots/FILENAME
+rm -rf /root/topaz-data/db /root/topaz-data/wal
+tar -I zstd -xf gnoland-snapshot.tar.zst -C /root/topaz-data/
+
+# Restore validator state (validators only)
+cp /root/priv_validator_state.json.bak /root/topaz-data/secrets/priv_validator_state.json
+
+# Start node
+sudo systemctl start gnoland-topaz
+```
+
+### API
+
+```bash
+curl -s https://snapshots.apollo-validator.eu/api/gnoland/snapshots/latest | jq
+```
 
 ## Public RPC
 
