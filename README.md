@@ -26,8 +26,8 @@ Snapshots are created every 6 hours and stored for fast node synchronization.
 # Get snapshot info
 curl -s https://snapshots.apollo-validator.eu/api/gnoland/snapshots/latest | jq
 
-# Download
-wget -O gnoland-snapshot.tar.zst https://snapshots.apollo-validator.eu/gnoland/snapshots/FILENAME
+# Download latest snapshot
+wget -O gnoland-snapshot.tar.zst https://snapshots.apollo-validator.eu/gnoland/snapshots/latest.tar.zst
 ```
 
 ### Restore from Snapshot
@@ -42,8 +42,10 @@ sudo systemctl stop gnoland-topaz
 # Backup validator state (validators only)
 cp /root/topaz-data/secrets/priv_validator_state.json /root/priv_validator_state.json.bak
 
-# Download and extract
-wget -O gnoland-snapshot.tar.zst https://snapshots.apollo-validator.eu/gnoland/snapshots/FILENAME
+# Download latest snapshot
+wget -O gnoland-snapshot.tar.zst https://snapshots.apollo-validator.eu/gnoland/snapshots/latest.tar.zst
+
+# Restore
 rm -rf /root/topaz-data/db /root/topaz-data/wal
 tar -I zstd -xf gnoland-snapshot.tar.zst -C /root/topaz-data/
 
@@ -52,6 +54,9 @@ cp /root/priv_validator_state.json.bak /root/topaz-data/secrets/priv_validator_s
 
 # Start node
 sudo systemctl start gnoland-topaz
+
+# Clean up
+rm -v gnoland-snapshot.tar.zst
 ```
 
 ### API
