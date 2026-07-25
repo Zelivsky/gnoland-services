@@ -133,7 +133,9 @@ Telegram bot for real-time validator monitoring and alerts.
 | `/remove <addr>` | Remove validator |
 | `/list` | List all monitored validators |
 | `/threshold <addr> <n>` | Set missed blocks threshold |
+| `/map <moniker_or_operator> <signing_addr>` | Add address mapping |
 | `/status` | Show node + all validators status |
+| `/missed [addr] [window]` | Check missed blocks (default: 10000) |
 | `/help` | Show help |
 
 ### Adding a Validator
