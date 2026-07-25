@@ -12,7 +12,7 @@ Public infrastructure and tools for Gnoland Topaz testnet operators by [Apollo V
 | Public RPC | `https://rpc.apollo-validator.eu/gnoland/` | 🟢 Active |
 | Snapshots | `https://snapshots.apollo-validator.eu/gnoland/` | 🟢 Active |
 | Validator Guide | [guide.md](guide.md) | 🟢 Active |
-| Validator Monitor | Coming soon | 🟡 Planned |
+| Validator Monitor | @gnoland_monitor_apollo_bot | 🟢 Active |
 
 ## Snapshots
 
@@ -117,6 +117,54 @@ curl -s "https://rpc.apollo-validator.eu/gnoland/broadcast_tx_commit?tx=$(gnokey
 ```
 RPC URL: https://rpc.apollo-validator.eu/gnoland/
 Chain ID: topaz-1
+```
+
+## Validator Monitor Bot
+
+Telegram bot for real-time validator monitoring and alerts.
+
+**Bot:** [@gnoland_monitor_apollo_bot](https://t.me/gnoland_monitor_apollo_bot)
+
+### Commands
+
+| Command | Description |
+|---------|-------------|
+| `/add <addr> [threshold]` | Add validator to monitoring |
+| `/remove <addr>` | Remove validator |
+| `/list` | List all monitored validators |
+| `/threshold <addr> <n>` | Set missed blocks threshold |
+| `/status` | Show node + all validators status |
+| `/help` | Show help |
+
+### Adding a Validator
+
+```
+/add g1z360harzpshhdnlrdgj5ljkx2aeckzavkyl9g0
+/add Apollo
+/add Apollo 20
+```
+
+You can add by:
+- **Operator address** (`g1...`)
+- **Moniker** (partial match, e.g. "Apollo")
+- With optional missed blocks **threshold** (default: 10)
+
+### Auto Alerts
+
+The bot sends alerts for:
+- 🚨 **RPC unreachable** — cannot reach Topaz node
+- ⚠️ **Not in active set** — validator dropped from active set
+- ⚠️ **Zero voting power** — validator has no delegations
+- 🚨 **Missed blocks** — estimated missed blocks exceed threshold
+- ⚠️ **Low peers** — fewer than 5 connected peers
+
+### Configuration
+
+Environment variables:
+```
+TELEGRAM_BOT_TOKEN=your_token
+TELEGRAM_CHAT_ID=your_chat_id
+TOPAZ_RPC=http://localhost:55657
 ```
 
 ## Validator Guide
