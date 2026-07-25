@@ -11,6 +11,8 @@ Public infrastructure and tools for Gnoland Topaz testnet operators by [Apollo V
 |---|---|---|
 | Public RPC | `https://rpc.apollo-validator.eu/gnoland/` | 🟢 Active |
 | Snapshots | `https://snapshots.apollo-validator.eu/gnoland/` | 🟢 Active |
+| State Sync Guide | [statesync.md](statesync.md) | 🟢 Active |
+| Peers List | [peers.md](peers.md) (auto-updated) | 🟢 Active |
 | Validator Guide | [guide.md](guide.md) | 🟢 Active |
 | Validator Monitor | @gnoland_monitor_apollo_bot | 🟢 Active |
 
