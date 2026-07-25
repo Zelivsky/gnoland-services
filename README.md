@@ -121,35 +121,40 @@ Chain ID: topaz-1
 
 ## Validator Monitor Bot
 
-Telegram bot for real-time validator monitoring and alerts.
+Public Telegram bot for monitoring Gnoland Topaz validators. Each user has their own monitoring list.
 
 **Bot:** [@gnoland_monitor_apollo_bot](https://t.me/gnoland_monitor_apollo_bot)
+
+### Features
+
+- 🔍 **Network status** — height, peers, validators, voting power
+- ➕ **Add any validator** — by signing address, operator address, or moniker
+- 🔔 **Auto alerts** — RPC issues, validator leaves active set, zero voting power, low peers
+- 📊 **Per-user monitoring** — each user tracks their own validators
 
 ### Commands
 
 | Command | Description |
 |---------|-------------|
-| `/add <addr> [threshold]` | Add validator to monitoring |
+| `/add <addr>` | Add validator to monitoring |
 | `/remove <addr>` | Remove validator |
-| `/list` | List all monitored validators |
-| `/threshold <addr> <n>` | Set missed blocks threshold |
-| `/map <moniker_or_operator> <signing_addr>` | Add address mapping |
-| `/status` | Show node + all validators status |
-| `/missed [addr] [window]` | Check missed blocks (default: 10000) |
+| `/list` | List your monitored validators |
+| `/map <name> <addr>` | Link validator addresses |
+| `/status` | Show network info |
 | `/help` | Show help |
 
 ### Adding a Validator
 
 ```
+/add g1sgu52u6hfffg9tyck7v3zgd27hhv2paf9rgamr
 /add g1z360harzpshhdnlrdgj5ljkx2aeckzavkyl9g0
 /add Apollo
-/add Apollo 20
 ```
 
 You can add by:
+- **Signing address** (`g1...`)
 - **Operator address** (`g1...`)
-- **Moniker** (partial match, e.g. "Apollo")
-- With optional missed blocks **threshold** (default: 10)
+- **Moniker** (partial match)
 
 ### Auto Alerts
 
@@ -157,17 +162,7 @@ The bot sends alerts for:
 - 🚨 **RPC unreachable** — cannot reach Topaz node
 - ⚠️ **Not in active set** — validator dropped from active set
 - ⚠️ **Zero voting power** — validator has no delegations
-- 🚨 **Missed blocks** — estimated missed blocks exceed threshold
 - ⚠️ **Low peers** — fewer than 5 connected peers
-
-### Configuration
-
-Environment variables:
-```
-TELEGRAM_BOT_TOKEN=your_token
-TELEGRAM_CHAT_ID=your_chat_id
-TOPAZ_RPC=http://localhost:55657
-```
 
 ## Validator Guide
 
