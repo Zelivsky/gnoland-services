@@ -11,8 +11,8 @@ Public infrastructure and tools for Gnoland Topaz testnet operators by [Apollo V
 |---|---|---|
 | Public RPC | `https://rpc.apollo-validator.eu/gnoland/` | 🟢 Active |
 | Snapshots | `https://snapshots.apollo-validator.eu/gnoland/` | 🟢 Active |
+| Validator Guide | [guide.md](guide.md) | 🟢 Active |
 | Validator Monitor | Coming soon | 🟡 Planned |
-| Guide | Coming soon | 🟡 Planned |
 
 ## Snapshots
 
@@ -117,6 +117,28 @@ curl -s "https://rpc.apollo-validator.eu/gnoland/broadcast_tx_commit?tx=$(gnokey
 ```
 RPC URL: https://rpc.apollo-validator.eu/gnoland/
 Chain ID: topaz-1
+```
+
+## Validator Guide
+
+Full installation and setup guide: [guide.md](guide.md)
+
+### Quick Start
+
+```bash
+# Install Go and build
+git clone https://github.com/gnolang/gno.git && cd gno && git checkout chain/topaz
+make -C gno.land install.gnoland install.gnokey
+
+# Configure
+mkdir -p ~/topaz-data/config ~/topaz-data/secrets
+gnoland config init -config-path ~/topaz-data/config/config.toml
+
+# Download genesis
+wget -O ~/topaz-data/config/genesis.json https://github.com/gnolang/gno/releases/download/chain/topaz/genesis.json
+
+# Start
+gnoland start --chainid topaz-1 --genesis ~/topaz-data/config/genesis.json --data-dir ~/topaz-data/ --skip-genesis-sig-verification
 ```
 
 ## Validator
