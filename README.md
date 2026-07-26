@@ -7,14 +7,64 @@ Public infrastructure and tools for Gnoland Topaz testnet operators by [Apollo V
 
 ## Services
 
-| Service | Endpoint | Status |
-|---|---|---|
-| Public RPC | `https://rpc.apollo-validator.eu/gnoland/` | 🟢 Active |
-| Snapshots | `https://snapshots.apollo-validator.eu/gnoland/` | 🟢 Active |
-| State Sync Guide | [statesync.md](statesync.md) | 🟢 Active |
-| Peers List | [peers.md](peers.md) (auto-updated) | 🟢 Active |
-| Validator Guide | [guide.md](guide.md) | 🟢 Active |
-| Validator Monitor | @gnoland_monitor_apollo_bot | 🟢 Active |
+| # | Service | Endpoint | Status |
+|---|---------|----------|--------|
+| 1 | [Public RPC](#public-rpc) | `rpc.apollo-validator.eu/gnoland/` | 🟢 Active |
+| 2 | [Snapshots](#snapshots) | `snapshots.apollo-validator.eu/gnoland/` | 🟢 Active |
+| 3 | [State Sync Guide](#state-sync-guide) | [statesync.md](statesync.md) | 🟢 Active |
+| 4 | [Peers List](#peers-list) | [peers.md](peers.md) (auto-updated every 6h) | 🟢 Active |
+| 5 | [Validator Guide](#validator-guide) | [guide.md](guide.md) | 🟢 Active |
+| 6 | [Monitor Bot](#validator-monitor-bot) | [@gnoland_monitor_apollo_bot](https://t.me/gnoland_monitor_apollo_bot) | 🟢 Active |
+
+---
+
+## Public RPC
+
+Base URL: `https://rpc.apollo-validator.eu/gnoland/`
+
+### Available Endpoints
+
+| Endpoint | Description |
+|---|---|
+| `/status` | Node sync status, block height |
+| `/abci_info` | ABCI application info |
+| `/net_info` | Network peers info |
+| `/health` | Node health check |
+| `/genesis` | Genesis file |
+| `/block?height=N` | Block by height |
+| `/validators?height=N` | Validator set |
+| `/commit?height=N` | Block commit |
+| `/tx?hash=H` | Transaction by hash |
+| `/broadcast_tx_commit?tx=TX` | Broadcast transaction |
+| `/consensus_state` | Consensus state |
+
+### Usage Examples
+
+```bash
+# Check node status
+curl -s https://rpc.apollo-validator.eu/gnoland/status | jq
+
+# Get current block height
+curl -s https://rpc.apollo-validator.eu/gnoland/status | jq -r '.result.sync_info.latest_block_height'
+
+# Get network peers
+curl -s https://rpc.apollo-validator.eu/gnoland/net_info | jq -r '.result.n_peers'
+
+# Query account balance
+curl -s "https://rpc.apollo-validator.eu/gnoland/abci_query?path=/main/store/account:/g1.../balance" | jq
+
+# Broadcast transaction
+curl -s "https://rpc.apollo-validator.eu/gnoland/broadcast_tx_commit?tx=$(gnokey maketx ...)" | jq
+```
+
+### Configuration for Wallets/Tools
+
+```
+RPC URL: https://rpc.apollo-validator.eu/gnoland/
+Chain ID: topaz-1
+```
+
+---
 
 ## Snapshots
 
@@ -67,115 +117,33 @@ rm -v gnoland-snapshot.tar.zst
 curl -s https://snapshots.apollo-validator.eu/api/gnoland/snapshots/latest | jq
 ```
 
-## Public RPC
+---
 
-Base URL: `https://rpc.apollo-validator.eu/gnoland/`
+## State Sync Guide
 
-### Available Endpoints
+Full state sync documentation: [statesync.md](statesync.md)
 
-| Endpoint | Description |
-|---|---|
-| `/status` | Node sync status, block height |
-| `/abci_info` | ABCI application info |
-| `/net_info` | Network peers info |
-| `/health` | Node health check |
-| `/genesis` | Genesis file |
-| `/block?height=N` | Block by height |
-| `/validators?height=N` | Validator set |
-| `/commit?height=N` | Block commit |
-| `/tx?hash=H` | Transaction by hash |
-| `/broadcast_tx_commit?tx=TX` | Broadcast transaction |
-| `/consensus_state` | Consensus state |
+Two methods for fast synchronization:
 
-### Usage Examples
+1. **Snapshot restore** (recommended) — download compressed snapshot, extract, resume from saved height
+2. **Genesis sync** — start from block 0, wait for chain to sync (slower)
 
-**Check node status:**
+---
+
+## Peers List
+
+Auto-generated: [peers.md](peers.md) (updated every 6 hours via cron)
+
+Peers are collected from our node and public RPCs, then TCP-probed for reachability. The list includes all verified peers with ready-to-use commands for adding them to your node config.
+
 ```bash
-curl -s https://rpc.apollo-validator.eu/gnoland/status | jq
+PEERS="g1s3gxegh58tvm0n0nx2p2mjkyfzucdnc3zpwq07@65.108.237.96:26656,..."
+
+cd ~/gno
+gnoland config set p2p.persistent_peers "$PEERS"
 ```
 
-**Get current block height:**
-```bash
-curl -s https://rpc.apollo-validator.eu/gnoland/status | jq -r '.result.sync_info.latest_block_height'
-```
-
-**Get network peers:**
-```bash
-curl -s https://rpc.apollo-validator.eu/gnoland/net_info | jq -r '.result.n_peers'
-```
-
-**Query account balance:**
-```bash
-curl -s "https://rpc.apollo-validator.eu/gnoland/abci_query?path=/main/store/account:/g1.../balance" | jq
-```
-
-**Broadcast transaction:**
-```bash
-curl -s "https://rpc.apollo-validator.eu/gnoland/broadcast_tx_commit?tx=$(gnokey maketx ...)" | jq
-```
-
-### Configuration for Wallets/Tools
-
-```
-RPC URL: https://rpc.apollo-validator.eu/gnoland/
-Chain ID: topaz-1
-```
-
-## Validator Monitor Bot
-
-Public Telegram bot for monitoring Gnoland Topaz validators. Each user has their own monitoring list.
-
-**Bot:** [@gnoland_monitor_apollo_bot](https://t.me/gnoland_monitor_apollo_bot)
-
-### Features
-
-- 🔍 **Network status** — height, peers, validators, voting power
-- ➕ **Add by signing address** — most reliable method
-- ➕ **Add by moniker** — supported for 50+ validators (auto-updated from topaz)
-- 🔔 **Auto alerts** — RPC issues, validator leaves active set, zero voting power, low peers
-- 📊 **Per-user monitoring** — each user tracks their own validators
-
-### Commands
-
-| Command | Description |
-|---------|-------------|
-| `/add <address or moniker>` | Add validator to monitoring |
-| `/remove <address or moniker>` | Remove validator |
-| `/list` | List your monitored validators |
-| `/status` | Show network info |
-| `/help` | Show help |
-
-### Adding a Validator
-
-**By signing address (most reliable):**
-```
-/add g1sgu52u6hfffg9tyck7v3zgd27hhv2paf9rgamr
-```
-
-**By moniker (if supported):**
-```
-/add Apollo
-/add UTSA
-/add CoreNode
-```
-
-Find your signing address at:
-- [Valopers page](https://topaz.testnets.gno.land/r/gnops/valopers)
-- [GnoScan](https://gnoscan.io)
-
-### Auto Alerts
-
-The bot sends alerts for:
-- 🚨 **RPC unreachable** — cannot reach Topaz node
-- ⚠️ **Not in active set** — validator dropped from active set
-- ⚠️ **Zero voting power** — validator has no delegations
-- ⚠️ **Low peers** — fewer than 5 connected peers
-
-### Known Limitations
-
-- Moniker support works for validators who have signed up on the topaz valopers page (~50 validators)
-- For validators not in the mapping, use their **signing address** (g1...)
-- The valoper mapping is auto-updated daily from the topaz website
+---
 
 ## Validator Guide
 
@@ -199,6 +167,66 @@ wget -O ~/topaz-data/config/genesis.json https://github.com/gnolang/gno/releases
 gnoland start --chainid topaz-1 --genesis ~/topaz-data/config/genesis.json --data-dir ~/topaz-data/ --skip-genesis-sig-verification
 ```
 
+---
+
+## Validator Monitor Bot
+
+Public Telegram bot for monitoring Gnoland Topaz validators. Each user has their own monitoring list.
+
+**Bot:** [@gnoland_monitor_apollo_bot](https://t.me/gnoland_monitor_apollo_bot)
+
+### Commands
+
+| Command | Description |
+|---------|-------------|
+| `/add <address or moniker>` | Add validator to monitoring |
+| `/remove <address or moniker>` | Remove validator |
+| `/list` | List your monitored validators |
+| `/status` | Show network info and your validators |
+| `/map <name or address>` | Look up validator info (moniker, operator, signing addr) |
+| `/threshold <n>` | Set missed blocks alert threshold (default: 1) |
+| `/help` | Show help |
+
+### Adding a Validator
+
+You can add by **signing address**, **operator address**, or **moniker**:
+
+```
+/add g1sgu52u6hfffg9tyck7v3zgd27hhv2paf9rgamr        # signing address
+/add g1z360harzpshhdnlrdgj5ljkx2aeckzavkyl9g0          # operator address
+/add Apollo                                              # moniker
+```
+
+Validator mapping covers 93+ validators from the [OshVanK explorer](https://explorer-gnoland.oshvank.xyz). Use `/map` to look up any validator's addresses.
+
+### Uptime Monitoring
+
+The bot automatically checks block signing every ~1 minute (last 50 blocks):
+
+- **/status** and **/list** show current uptime percentage
+- 🔴 Uptime below 50%
+- 🟢 Uptime 50%+ or VP active
+
+### Auto Alerts
+
+The bot sends instant alerts for:
+- 🚨 **RPC unreachable** — cannot reach Topaz node
+- 🚨 **Missed blocks** — configurable threshold (default: 1 block)
+- ⚠️ **Not in active set** — validator dropped from active set
+- ⚠️ **Zero voting power** — validator has no delegations
+- ⚠️ **Low peers** — fewer than 5 connected peers
+
+### Threshold Configuration
+
+By default, the bot alerts after **1 missed block**. Change with:
+
+```
+/threshold 5    # alert after 5 missed blocks
+/threshold      # show current threshold
+```
+
+---
+
 ## Validator
 
 | Field | Value |
@@ -208,10 +236,13 @@ gnoland start --chainid topaz-1 --genesis ~/topaz-data/config/genesis.json --dat
 | Chain | topaz-1 |
 | Website | [apollo-validator.eu](https://apollo-validator.eu) |
 
+---
+
 ## Links
 
 - [Gnoland Website](https://gno.land)
 - [Topaz Testnet](https://topaz.testnets.gno.land)
+- [OshVanK Explorer](https://explorer-gnoland.oshvank.xyz)
 - [GnoScan Explorer](https://gnoscan.io)
 - [Official Validator Docs](https://github.com/gnolang/gno/blob/chain/topaz/misc/deployments/topaz.gno.land/VALIDATOR.md)
 - [Discord](https://discord.gg/gnoland)
