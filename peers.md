@@ -1,79 +1,23 @@
 # Gnoland Topaz Peers
 
-Last updated: 2026-07-26 06:50 UTC
-Height: 206,668
-Verified peers: 55/66
+Last updated: 2026-07-26 06:58 UTC | Height: 206,809 | Verified: 53/64
 
-## How this list is built
+## How we collect peers
 
-Every 6 hours, peers are collected from multiple independent sources (our node + public RPCs),
-then TCP-probed on the p2p port to verify external reachability.
-Only peers that pass TCP reachability check are included.
-Persistent peers are auto-generated from the top 15 verified peers.
+Every 6 hours, peer addresses are gathered from our node and public RPCs.
+Each peer is then TCP-probed to confirm it is actually reachable.
+Only peers that pass this check are included in the list below.
 
-## config.toml
+## Adding peers to your node
 
-```toml
-p2p.seeds = "g19q07ssuafhmg6r7ys7wp7rpc4jxc85cpvdy426@seed-1.topaz.testnets.gno.land:26656,g15k98e65gm8h7fdr3yr4tqn82lvch4a97a3sg3j@seed-2.topaz.testnets.gno.land:26656"
-p2p.persistent_peers = "g18t2vue7q3nkxtpz2m78ul3h7nr5f9c69ewgw8r@135.181.115.154:14656,g1u70ql9gf8ady48cw0vlf865qzmhc3w8asqsj30@65.21.84.250:41656,g17t7vlg7hjvsldqj06zenkxpktzntkp62thg9a7@65.109.106.214:55656,g1zzyjtaj4lv4vlx6nvaf95rpe68sdhh38t968gs@54.72.126.143:26656,g163g9pyzc8l83ta5qmedmckfywrtzhvknxlsmks@85.195.116.219:26680,g1uxnsjx4aamx07ql25s3pgnamzkqz6n8xl80rp8@65.108.65.23:55656,g15rqtlh060msv03g5h8vlr9wav4lxgncujtszvf@65.21.15.43:55656,g1arsudmkt63gt9tzf7gvpmhw0jh2qm485q4a568@135.181.216.107:36656,g1wh4wqhh6ffszkwqp7a9m8zqdsfyz5awlm4n87g@148.251.2.253:48656,g18ahqzryula7y9j6w4v7fnkc0l6djn3rvguhld8@135.181.17.54:26656,g1ghl8lhhdnhwwvp94z0gsadvz3c03et30cqyhu2@188.68.36.11:26656,g1cw4ajr026320c3a6rfm2d77tr94yglh5namap9@65.108.198.182:22656,g1w44kfhv9a4ruqx70jxqmykychre3ffpnfje8h7@159.195.47.190:55656,g10wnv6k3puuktzncn3j703gj7eju908h0dtrdr9@0.0.0.0:36656,g18ncv9au4sq4d7jxjduxj4sstm3zl2lvd3kehqu@44.213.204.244:26656"
+Copy the command below and run it on your node to set all verified peers at once:
+
+```bash
+gnoland config set p2p.persistent_peers "g1uxnsjx4aamx07ql25s3pgnamzkqz6n8xl80rp8@65.108.65.23:55656,g15rqtlh060msv03g5h8vlr9wav4lxgncujtszvf@65.21.15.43:55656,g1arsudmkt63gt9tzf7gvpmhw0jh2qm485q4a568@135.181.216.107:36656,g1wh4wqhh6ffszkwqp7a9m8zqdsfyz5awlm4n87g@148.251.2.253:48656,g18ahqzryula7y9j6w4v7fnkc0l6djn3rvguhld8@135.181.17.54:26656,g1ghl8lhhdnhwwvp94z0gsadvz3c03et30cqyhu2@188.68.36.11:26656,g1cw4ajr026320c3a6rfm2d77tr94yglh5namap9@65.108.198.182:22656,g1w44kfhv9a4ruqx70jxqmykychre3ffpnfje8h7@159.195.47.190:55656,g10wnv6k3puuktzncn3j703gj7eju908h0dtrdr9@0.0.0.0:36656,g18ncv9au4sq4d7jxjduxj4sstm3zl2lvd3kehqu@44.213.204.244:26656,g1qwawm46wy4e76fusd056yataqxxr0t4hhkndmx@14.225.215.118:26656,g13lg797wyweuultfxdntaz3v9yuchl5p9aexj4k@93.125.49.130:26660,g1qgkc9h0dtdjlhzdft86pws0esf2twyw95flvy4@52.86.126.248:26656,g1uezln7pckcqpt9jup08m4ehun2r03czk7yg6pp@37.27.235.144:54656,g1vv4vnq3qupmye8ddps60683g03vcvzwu4z5qmy@32.196.242.41:26656,g1wfu406mz57cv2cq68agrkefd4g6pw0ew4kyvlu@216.106.185.50:54656,g1twhtktqdfg6dldfcaswf6cke0t4cp6g6kszrhs@209.209.8.93:36656,g19q07ssuafhmg6r7ys7wp7rpc4jxc85cpvdy426@34.232.108.152:26656,g1r4vfd70fc22hgavfqvavryn3grqmtw4luw8apx@152.53.125.167:21656,g145yqalnygs63ngs6qy3as9t2mzrq3ljz9awus6@135.181.21.38:22656,g1andygt3g7u73xex8sg7af02dm2pcgsyjjqpd04@149.50.96.58:41666,g1g7ud4knkm58hzl3hpuh7wac2tvdywhx4hah5vz@163.172.33.181:26656,g1m0tzkcdtnshtkk9u50hufhldaja0pk6yg08mzc@167.86.76.130:47656,g1gfrq2x5qzhue0e53xykydsfyvg3fzzx7aer32e@103.107.183.177:26656,g17d5epdngr7yt7n5tn9xx0xm38s870475c6gnsk@46.224.197.243:55656,g1yr6l8qz095yz7dlvfs6cjfw3s026ksxwx7wgx5@219.79.108.130:28756,g12mhgwsnv5hea3jmfyvs2szv9e4yj6dk3ldf953@116.202.156.139:36656,g1nutynyj08sauqemyedctx7cvr2pvw24lg0gnw6@0.0.0.0:38656,g1wxpr5hd6uvz3x2wqdl79w2tzz20e7zvsgr82jv@65.109.79.185:54656,g1rrj6gvxp7ph8d4rsy9vegrhp8nx4lyxzgmc4ad@65.109.124.135:54656,g1x8rvj9l5lnf54qrrrjaeenjsg8yuf9qsusfngf@5.9.8.148:30803,g1x38lw7g2p6l5ne2vpjwm3x8cjwwjqd2hd2dck4@185.16.39.172:55656,g15k98e65gm8h7fdr3yr4tqn82lvch4a97a3sg3j@108.132.15.161:26656,g1jnxhcdwecgm0r0ryrrl3tk4xpdhlv75et7lflm@65.108.73.189:40156,g1sqnza5nr7kta42mrvmk6w2h5xkl7zpunga3zkm@135.181.232.179:27656,g1qqgunhgxrlvwequxt0m2h7aan4yhnee3plfe74@185.144.99.19:26656,g1w346jst39hk93grftsjdhvgw2yg32nfxjz6e9c@46.224.220.23:54656,g1gng29x0u7rnp5w48mpkklqk2rkv4lugsnlxy4v@148.72.141.245:26670,g1f95jxjxnmegszr8ut7c38uhvjycjj2hjrpw5ds@185.122.165.176:32556,g15z7y8lx6hdjxxempc4clsuq8j6eny9gp2cvdaq@0.0.0.0:46656,g17m5gtexpl4s7x3d3e2xmv5mnzx3pcxwufy97v3@162.250.190.214:26656,g10zqystndwphs4aumuj8fujmh0z5ep9lmx9fnpl@38.49.212.137:36656,g19c3srq7cxz4lspgvdfqerq0fr4rg0u92a9c09t@38.9.96.60:26656,g1393shc3547t6yyva69hnpwmqnc0psxkyhknljw@152.53.245.124:26656,g1s3gxegh58tvm0n0nx2p2mjkyfzucdnc3zpwq07@65.108.237.96:26656,g1tnmmfecjvqkyfgjaqag9d0hnk57z09aqmsctsy@152.53.254.226:55656,g18t2vue7q3nkxtpz2m78ul3h7nr5f9c69ewgw8r@135.181.115.154:14656,g1u70ql9gf8ady48cw0vlf865qzmhc3w8asqsj30@65.21.84.250:41656,g17t7vlg7hjvsldqj06zenkxpktzntkp62thg9a7@65.109.106.214:55656,g1zzyjtaj4lv4vlx6nvaf95rpe68sdhh38t968gs@54.72.126.143:26656,g138usej2c7hvcqec6wzsqwaw2zexnngx0hrpele@208.76.222.122:36656,g1mjuc2r4hxz70wldpshz98v23cl0h8emp3p5ths@152.53.249.120:36656,g169y75djeuvpsakzlajvq4kprnqdykxrhe6tz7e@146.19.24.32:26656"
 ```
 
-## Verified Peer List
+To set seeds separately:
 
-| # | Moniker | Host | Port |
-|---|---------|------|------|
-| 1 | ruangnode | 135.181.115.154 | 14656 |
-| 2 | Fluxen | 65.21.84.250 | 41656 |
-| 3 | Conqueror | 65.109.106.214 | 55656 |
-| 4 | gno-core-sentry-02 | 54.72.126.143 | 26656 |
-| 5 | Cumulo | 85.195.116.219 | 26680 |
-| 6 | coinsspor | 65.108.65.23 | 55656 |
-| 7 | YOUR-MONIKER | 65.21.15.43 | 55656 |
-| 8 | testovich | 135.181.216.107 | 36656 |
-| 9 | zardozmonopoly | 148.251.2.253 | 48656 |
-| 10 | BlockNth | 135.181.17.54 | 26656 |
-| 11 | v2202509302671385748 | 188.68.36.11 | 26656 |
-| 12 | MictoNode | 65.108.198.182 | 22656 |
-| 13 | doresa | 159.195.47.190 | 55656 |
-| 14 | n1sntry1 | 0.0.0.0 | 36656 |
-| 15 | gno-core-sentry-01 | 44.213.204.244 | 26656 |
-| 16 | OnNode | 14.225.215.118 | 26656 |
-| 17 | plantree | 93.125.49.130 | 26660 |
-| 18 | onbloc-test14-rpc-i-05f7b1f5387ea77bb | 52.86.126.248 | 26656 |
-| 19 | corenode-rpc | 37.27.235.144 | 54656 |
-| 20 | onbloc-val-01 | 32.196.242.41 | 26656 |
-| 21 | ITRocket | 216.106.185.50 | 54656 |
-| 22 | Umair_ChainGuard | 209.209.8.93 | 36656 |
-| 23 | gno-core-pubseed-01 | 34.232.108.152 | 26656 |
-| 24 | linkednode | 152.53.125.167 | 21656 |
-| 25 | Trace | 135.181.21.38 | 22656 |
-| 26 | HusoNode | 149.50.96.58 | 41666 |
-| 27 | berty-sen-01 | 163.172.33.181 | 26656 |
-| 28 | NakoTurk | 167.86.76.130 | 47656 |
-| 29 | Tecnodes | 152.53.249.120 | 36656 |
-| 30 | OwlStake | 103.107.183.177 | 26656 |
-| 31 | Primestake | 46.224.197.243 | 55656 |
-| 32 | Oneiric Stake | 219.79.108.130 | 28756 |
-| 33 | AviaOne | 116.202.156.139 | 36656 |
-| 34 | Grand Valley | 0.0.0.0 | 38656 |
-| 35 | node-adiniz | 65.109.79.185 | 54656 |
-| 36 | test | 65.109.124.135 | 54656 |
-| 37 | 1XP | 5.9.8.148 | 30803 |
-| 38 | ZeycaNode | 185.16.39.172 | 55656 |
-| 39 | gno-core-pubseed-02 | 108.132.15.161 | 26656 |
-| 40 | EmberStake | 65.108.73.189 | 40156 |
-| 41 | POSTHUMAN | 135.181.232.179 | 27656 |
-| 42 | cryptech | 185.144.99.19 | 26656 |
-| 43 | Stella | 46.224.220.23 | 54656 |
-| 44 | Cumulo-RPC | 148.72.141.245 | 26670 |
-| 45 | nodeshub-seed-node | 185.122.165.176 | 32556 |
-| 46 | Sr20de | 0.0.0.0 | 46656 |
-| 47 | KaLaMuC | 38.49.212.137 | 36656 |
-| 48 | NodeRuneR | 38.9.96.60 | 26656 |
-| 49 | HazenRPC | 152.53.245.124 | 26656 |
-| 50 | HazenNetworkSolutions | 65.108.237.96 | 26656 |
-| 51 | MONIKER-ADINIZ | 152.53.254.226 | 55656 |
-| 52 | OshVanK | 65.21.206.184 | 18656 |
-| 53 | TheGoodEscobar | 109.123.243.186 | 26666 |
-| 54 | YOUR-MONIKER | 152.53.253.167 | 55656 |
-| 55 | Vicky_Pulsican | 162.250.190.214 | 26656 |
+```bash
+gnoland config set p2p.seeds "g19q07ssuafhmg6r7ys7wp7rpc4jxc85cpvdy426@seed-1.topaz.testnets.gno.land:26656,g15k98e65gm8h7fdr3yr4tqn82lvch4a97a3sg3j@seed-2.topaz.testnets.gno.land:26656"
+```
